@@ -109,7 +109,7 @@ public class TestDocumentProvider {
             ti.getForwardConnectors().add(fC);
 
             ITemplateProvMapper mapper = new TemplateProvMapper(new CpmProvFactory(pF));
-            Document document = mapper.map(ti);
+            Document document = mapper.toProvDocument(ti);
             return new CpmDocument(document, pF, cPF, cF);
         } catch (Exception e) {
             throw new RuntimeException(e);

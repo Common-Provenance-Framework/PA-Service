@@ -1,8 +1,17 @@
-.gradle
-build/
-!gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**/build/
-!**/src/test/**/build/
+HELP.md
+target/
+logs/
+.mvn/wrapper/maven-wrapper.jar
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+.DS_Store
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
@@ -13,20 +22,6 @@ build/
 *.iml
 *.ipr
 out/
-!**/src/main/**/out/
-!**/src/test/**/out/
-
-### Eclipse ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
 
 ### NetBeans ###
 /nbproject/private/
@@ -37,6 +32,3 @@ bin/
 
 ### VS Code ###
 .vscode/
-
-### Mac OS ###
-.DS_Store

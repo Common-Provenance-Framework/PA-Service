@@ -1,34 +1,38 @@
-FROM eclipse-temurin:23-jdk as builder
+FROM eclipse-temurin:23-jdk AS build
 
-WORKDIR /build
+WORKDIR /workspace
 
-COPY ./gradlew ./gradlew
-COPY ./gradle ./gradle
-COPY ./build.gradle.kts ./build.gradle.kts
-COPY ./settings.gradle.kts ./settings.gradle.kts
-COPY ./src ./src
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN chmod +x ./gradlew
-RUN ./gradlew :publishToMavenLocal
+COPY .mvn/ .mvn/
+COPY mvnw pom.xml ./
+COPY src/ src/
 
-RUN mkdir /libs && \
-    cp /root/.m2/repository/cz/muni/fi/cpm/cpm-core/1.0.0/cpm-core-1.0.0.jar /libs/ && \
-    cp /root/.m2/repository/cz/muni/fi/cpm/cpm-template/1.0.0/cpm-template-1.0.0.jar /libs/
+RUN chmod +x mvnw
+RUN ./mvnw -B org.apache.maven.plugins:maven-install-plugin:3.1.4:install-file \
+    -Dfile=src/main/resources/CPF-Toolbox/cpm-core-2.2.0.jar \
+    -DgroupId=cz.muni.fi.cpm \
+    -DartifactId=cpm-core \
+    -Dversion=2.2.0 \
+    -Dpackaging=jar \
+    -DgeneratePom=true
+RUN ./mvnw -B org.apache.maven.plugins:maven-install-plugin:3.1.4:install-file \
+    -Dfile=src/main/resources/CPF-Toolbox/cpm-template-2.2.0.jar \
+    -DgroupId=cz.muni.fi.cpm \
+    -DartifactId=cpm-template \
+    -Dversion=2.2.0 \
+    -Dpackaging=jar \
+    -DgeneratePom=true
+RUN ./mvnw -B package -DskipTests
 
-FROM eclipse-temurin:23-jdk
+FROM eclipse-temurin:23-jre-alpine AS runtime
 
 WORKDIR /app
 
-COPY --from=builder /libs ./libs
-COPY ./gradlew ./gradlew
-COPY ./gradle ./gradle
-COPY ./build.gradle.kts ./build.gradle.kts
-COPY ./settings.gradle.kts ./settings.gradle.kts
-COPY ./src ./src
+COPY --from=build /workspace/target/*.jar /app/app.jar
 
-RUN chmod +x ./gradlew
-RUN ./gradlew clean build
+EXPOSE 8000
 
-EXPOSE 8000 5005
-
-CMD ["java", "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005", "-jar", "/app/build/libs/bundle-search-1.0-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
