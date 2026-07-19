@@ -15,7 +15,7 @@
   <artifactId>bundle-search</artifactId>
   <name>bundle-search</name>
   <version>1.0-SNAPSHOT</version>
-  <description>Provenance analysis (bundle search) service of the Common Provenance Framework</description>
+  <description>Provenance Access (bundle search) service of the Common Provenance Framework</description>
 
   <properties>
     <java.version>23</java.version>
@@ -33,6 +33,10 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
     </dependency>
 
     <!-- Common Provenance Management -->

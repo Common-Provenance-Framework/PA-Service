@@ -1,0 +1,16 @@
+apiVersion: v2
+name: pa-service
+description: Helm chart for the PA (Provenance Access / bundle search) service of the Common Provenance Framework.
+type: application
+version: 0.1.0
+appVersion: "0.0.1"
+keywords:
+  - cpf
+  - provenance
+  - pa
+  - bundle-search
+home: https://github.com/Common-Provenance-Framework/PA-Service
+sources:
+  - https://github.com/Common-Provenance-Framework/PA-Service
+maintainers:
+  - name: Common Provenance Framework
