@@ -44,7 +44,7 @@ public abstract class FindSubgraphsQuery<T> implements IQuery<T> {
 
         List<SubgraphWrapper> subgraphs = fromSubgraphs.find(new SubgraphWrapper(document), startNode);
 
-        return new QueryResult<T>(transformResult(subgraphs), retrievedDocument.token);
+        return new QueryResult<T>(transformResult(subgraphs), retrievedDocument.jwt);
     }
 
     @Override public QueryResult<T> evaluate(QueryContext context) throws AccessDeniedException {

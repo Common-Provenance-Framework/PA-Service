@@ -35,24 +35,26 @@ public class Storage implements IStorage {
         this.cpmProvFactory = cpmProvFactory;
     }
 
-
     public StorageDocument loadDocument(String uri, String authorizationHeader) {
         try {
             uri += (uri.contains("?") ? "&" : "?") + FORMAT_QUERY_PARAM;
             String responseBody = getRequest(uri, authorizationHeader);
             ObjectMapper mapper = new ObjectMapper();
             GetDocumentResponse storageResponse = mapper.readValue(responseBody, GetDocumentResponse.class);
-            String decodedDocument = decodeData(storageResponse.document);
+            String decodedDocument = decodeData(storageResponse.graph);
             Document document = ProvDocumentUtils.deserialize(decodedDocument, FORMAT);
-            return new StorageDocument(document, storageResponse.token);
+            return new StorageDocument(document, storageResponse.jwt);
         } catch (IOException e) {
             throw new RuntimeException("Failed to load document " + uri, e);
         }
     }
 
-    @Override public StorageCpmDocument loadCpmDocument(String uri, EBundlePart part, String authorizationHeader) {
-        if (part == EBundlePart.DomainSpecific) uri += "/domain-specific";
-        else if (part == EBundlePart.TraversalInformation) uri += "/backbone";
+    @Override
+    public StorageCpmDocument loadCpmDocument(String uri, EBundlePart part, String authorizationHeader) {
+        if (part == EBundlePart.DomainSpecific)
+            uri += "/domain-specific";
+        else if (part == EBundlePart.TraversalInformation)
+            uri += "/backbone";
         return toCpmDocument(loadDocument(uri, authorizationHeader));
     }
 
@@ -64,13 +66,14 @@ public class Storage implements IStorage {
             GetMetaResponse storageResponse = mapper.readValue(responseBody, GetMetaResponse.class);
             String decodedDocument = decodeData(storageResponse.graph);
             Document document = ProvDocumentUtils.deserialize(decodedDocument, FORMAT);
-            return new StorageDocument(document, storageResponse.token);
+            return new StorageDocument(document, storageResponse.jwt);
         } catch (IOException e) {
             throw new RuntimeException("Failed to load document " + uri, e);
         }
     }
 
-    @Override public StorageCpmDocument loadMetaCpmDocument(String uri, String authorizationHeader) {
+    @Override
+    public StorageCpmDocument loadMetaCpmDocument(String uri, String authorizationHeader) {
         return toCpmDocument(loadMetaDocument(uri, authorizationHeader));
 
     }
@@ -80,18 +83,16 @@ public class Storage implements IStorage {
             return null;
         }
         if (storageDocument.document == null) {
-            return new StorageCpmDocument(null, storageDocument.token);
+            return new StorageCpmDocument(null, storageDocument.jwt);
         }
 
         return new StorageCpmDocument(
                 new CpmDocument(
                         storageDocument.document,
-                                                      provFactory,
-                                                      cpmProvFactory,
-                                                      cpmFactory
-        ),
-                                      storageDocument.token
-        );
+                        provFactory,
+                        cpmProvFactory,
+                        cpmFactory),
+                storageDocument.jwt);
     }
 
     private static String getRequest(String url, String authorizationHeader) throws IOException {
