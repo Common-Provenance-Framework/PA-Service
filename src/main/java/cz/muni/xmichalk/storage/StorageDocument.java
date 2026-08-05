@@ -1,14 +1,13 @@
 package cz.muni.xmichalk.storage;
 
-import cz.muni.xmichalk.storage.storageDTO.Token;
 import org.openprovenance.prov.model.Document;
 
 public class StorageDocument {
     public Document document;
-    public Token token;
+    public String jwt;
 
-    public StorageDocument(Document document, Token token) {
+    public StorageDocument(Document document, String jwt) {
         this.document = document;
-        this.token = token;
+        this.jwt = jwt;
     }
 }

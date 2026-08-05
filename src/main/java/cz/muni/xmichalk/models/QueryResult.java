@@ -1,16 +1,14 @@
 package cz.muni.xmichalk.models;
 
-import cz.muni.xmichalk.storage.storageDTO.Token;
-
 public class QueryResult<T> {
-    public Token token;
+    public String jwt;
     public T result;
 
     public QueryResult() {
     }
 
-    public QueryResult(T result, Token token) {
-        this.token = token;
+    public QueryResult(T result, String jwt) {
+        this.jwt = jwt;
         this.result = result;
     }
 }

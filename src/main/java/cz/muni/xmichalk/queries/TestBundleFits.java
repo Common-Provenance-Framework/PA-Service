@@ -37,6 +37,6 @@ public class TestBundleFits implements IQuery<Boolean> {
 
         boolean value = condition.test(new DocumentStart(document, startNode));
 
-        return new QueryResult<>(value, retrievedDocument.token);
+        return new QueryResult<>(value, retrievedDocument.jwt);
     }
 }
