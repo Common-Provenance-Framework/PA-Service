@@ -1,0 +1,6 @@
+server:
+  port: ${PA_SERVICE_PORT:8080}
+spring:
+  jackson:
+    mapper:
+      ACCEPT_CASE_INSENSITIVE_ENUMS: true
