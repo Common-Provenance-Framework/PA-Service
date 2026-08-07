@@ -45,7 +45,7 @@ public class GetPreferredVersion implements IQuery<QualifiedNameData> {
 
         CpmDocument metaDocument = retrievedDocument.document;
 
-
+        System.out.println("?????????");
         IVersionPicker versionPicker = null;
 
         switch (this.versionPreference) {
@@ -64,6 +64,7 @@ public class GetPreferredVersion implements IQuery<QualifiedNameData> {
         if (pickedVersion != null) {
             return new QueryResult<>(new QualifiedNameData().from(pickedVersion), retrievedDocument.jwt);
         }
+        System.out.println("?????????");
 
         return null;
     }

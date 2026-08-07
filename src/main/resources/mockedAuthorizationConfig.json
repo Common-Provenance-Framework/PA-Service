@@ -1,5 +1,5 @@
 {
-  "authorizedByDefault": false,
+  "authorizedByDefault": true,
   "authEntries": [
     {
       "authHeader": "Bearer full_access_token",

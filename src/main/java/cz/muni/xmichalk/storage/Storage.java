@@ -12,6 +12,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.openprovenance.prov.model.Bundle;
 import org.openprovenance.prov.model.Document;
 import org.openprovenance.prov.model.ProvFactory;
 import org.openprovenance.prov.model.interop.Formats;
@@ -43,6 +44,8 @@ public class Storage implements IStorage {
             GetDocumentResponse storageResponse = mapper.readValue(responseBody, GetDocumentResponse.class);
             String decodedDocument = decodeData(storageResponse.graph);
             Document document = ProvDocumentUtils.deserialize(decodedDocument, FORMAT);
+            System.out.println("PROV!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            System.out.println(((Bundle) document.getStatementOrBundle().getFirst()).getId());
             return new StorageDocument(document, storageResponse.jwt);
         } catch (IOException e) {
             throw new RuntimeException("Failed to load document " + uri, e);
@@ -66,6 +69,8 @@ public class Storage implements IStorage {
             GetMetaResponse storageResponse = mapper.readValue(responseBody, GetMetaResponse.class);
             String decodedDocument = decodeData(storageResponse.graph);
             Document document = ProvDocumentUtils.deserialize(decodedDocument, FORMAT);
+            System.out.println("META!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            System.out.println(((Bundle) document.getStatementOrBundle().getFirst()).getId());
             return new StorageDocument(document, storageResponse.jwt);
         } catch (IOException e) {
             throw new RuntimeException("Failed to load document " + uri, e);

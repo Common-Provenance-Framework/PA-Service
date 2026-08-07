@@ -42,8 +42,10 @@ public class ProvDocumentUtils {
     public static Document deserialize(String serialized, Formats.ProvFormat format) throws IOException {
         serialized = prepareForDeserialization(serialized, format);
         InteropFramework interop = new InteropFramework();
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         InputStream inputStream =
-                new ByteArrayInputStream(serialized.getBytes(java.nio.charset.StandardCharsets.UTF_8));
+        new ByteArrayInputStream(serialized.getBytes(java.nio.charset.StandardCharsets.UTF_8));
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         return interop.readDocument(inputStream, format);
     }
 

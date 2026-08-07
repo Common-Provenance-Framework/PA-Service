@@ -15,7 +15,8 @@ public class MockedAuthStorage implements IStorage {
         this.config = config;
     }
 
-    @Override public StorageCpmDocument loadCpmDocument(String uri, EBundlePart part, String authorizationHeader)
+    @Override
+    public StorageCpmDocument loadCpmDocument(String uri, EBundlePart part, String authorizationHeader)
             throws AccessDeniedException {
         if (isAuthorized(uri, part, authorizationHeader)) {
             return storage.loadCpmDocument(uri, part, authorizationHeader);
@@ -24,7 +25,8 @@ public class MockedAuthStorage implements IStorage {
         }
     }
 
-    @Override public StorageCpmDocument loadMetaCpmDocument(final String uri, final String authorizationHeader)
+    @Override
+    public StorageCpmDocument loadMetaCpmDocument(final String uri, final String authorizationHeader)
             throws AccessDeniedException {
         if (isAuthorized(uri, EBundlePart.Whole, authorizationHeader)) {
             return storage.loadMetaCpmDocument(uri, authorizationHeader);
