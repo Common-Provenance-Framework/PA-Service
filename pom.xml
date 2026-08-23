@@ -21,9 +21,9 @@
     <java.version>23</java.version>
 
     <cpm.version>2.2.0</cpm.version>
-    <openprovenance.version>2.2.3</openprovenance.version>
+    <openprovenance.version>2.2.4</openprovenance.version>
     <provjson.version>1.0.0</provjson.version>
-    <springdoc.version>3.0.3</springdoc.version>
+    <springdoc.version>3.1.0</springdoc.version>
     <httpclient.version>4.5.14</httpclient.version>
     <json.canonicalization.version>1.1</json.canonicalization.version>
   </properties>
