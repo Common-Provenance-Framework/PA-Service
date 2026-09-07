@@ -22,7 +22,7 @@ public class ProvDocumentUtils {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         interop.writeDocument(outputStream, document, ProvFormatToIntermediaType(format), false);
         String serialized = outputStream.toString(charset);
-        return finalizeAfterSerialization(serialized, format);
+        return serialized;
     }
 
     public static void serializeIntoFile(Path filePath, Document document, Formats.ProvFormat format)
@@ -31,33 +31,16 @@ public class ProvDocumentUtils {
         Files.writeString(filePath, string, charset);
     }
 
-    public static String finalizeAfterSerialization(String serializedDocument, Formats.ProvFormat format) {
-        if (format == Formats.ProvFormat.JSON) {
-            serializedDocument = ProvJsonUtils.removeExplicitBundleId(serializedDocument);
-        }
-
-        return serializedDocument;
-    }
-
     public static Document deserialize(String serialized, Formats.ProvFormat format) throws IOException {
-        serialized = prepareForDeserialization(serialized, format);
         InteropFramework interop = new InteropFramework();
-        InputStream inputStream =
-                new ByteArrayInputStream(serialized.getBytes(java.nio.charset.StandardCharsets.UTF_8));
+        InputStream inputStream = new ByteArrayInputStream(
+                serialized.getBytes(java.nio.charset.StandardCharsets.UTF_8));
         return interop.readDocument(inputStream, format);
     }
 
     public static Document deserializeFile(Path filePath, Formats.ProvFormat format) throws IOException {
         String serialized = Files.readString(filePath, StandardCharsets.UTF_8);
         return deserialize(serialized, format);
-    }
-
-    public static String prepareForDeserialization(String serializedDocument, Formats.ProvFormat format) {
-        if (format == Formats.ProvFormat.JSON) {
-            serializedDocument = ProvJsonUtils.prepareJsonForDeserialization(serializedDocument);
-        }
-
-        return serializedDocument;
     }
 
     public static String ProvFormatToIntermediaType(Formats.ProvFormat format) {
