@@ -15,7 +15,7 @@
         "ORG2:ProcessingBundle_V0": {
           "prov:type": "prov:bundle",
           "pav:version": {
-            "$": 1,
+            "$": "1",
             "type": "xsd:int"
           }
         },
@@ -23,11 +23,11 @@
           "cpm:originatorId": "ORG2",
           "cpm:authorityId": "Trusted_Party",
           "cpm:tokenTimestamp": {
-            "$": 1765140242,
+            "$": "1765140242",
             "type": "xsd:int"
           },
           "cpm:documentCreationTimestamp": {
-            "$": 1765140238,
+            "$": "1765140238",
             "type": "xsd:int"
           },
           "cpm:documentDigest": "79d0cbe60eb910d1aeee06ca1aef1dc3f8cf6f743d0f180a736481ef4705961a",
@@ -41,7 +41,7 @@
         "ORG2:ProcessingBundle_V1": {
           "prov:type": "prov:bundle",
           "pav:version": {
-            "$": 2,
+            "$":"2",
             "type": "xsd:int"
           }
         },
@@ -49,11 +49,11 @@
           "cpm:originatorId": "ORG2",
           "cpm:authorityId": "Trusted_Party",
           "cpm:tokenTimestamp": {
-            "$": 1765140260,
+            "$": "1765140260",
             "type": "xsd:int"
           },
           "cpm:documentCreationTimestamp": {
-            "$": 1765140256,
+            "$": "1765140256",
             "type": "xsd:int"
           },
           "cpm:documentDigest": "dced53517c2f2bccdaa526e6b192a372e52d670f6b0e3f04af8e146fd3253526",

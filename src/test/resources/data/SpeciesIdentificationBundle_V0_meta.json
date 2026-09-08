@@ -15,7 +15,7 @@
         "ORG3:SpeciesIdentificationBundle_V0": {
           "prov:type": "prov:bundle",
           "pav:version": {
-            "$": 1,
+            "$": "1",
             "type": "xsd:int"
           }
         },
@@ -23,11 +23,11 @@
           "cpm:originatorId": "ORG3",
           "cpm:authorityId": "Trusted_Party",
           "cpm:tokenTimestamp": {
-            "$": 1765140249,
+            "$": "1765140249",
             "type": "xsd:int"
           },
           "cpm:documentCreationTimestamp": {
-            "$": 1765140242,
+            "$": "1765140242",
             "type": "xsd:int"
           },
           "cpm:documentDigest": "42338bf2d6eff972c68783e329a8eab53a6a6c9e50126c6a7c1b108bab106849",
