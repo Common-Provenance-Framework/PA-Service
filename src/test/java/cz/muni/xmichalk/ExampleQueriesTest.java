@@ -319,7 +319,6 @@ public class ExampleQueriesTest {
         CpmDocument cpmDoc = TestDocumentProvider.dnaSequencingBundle_V0;
         QualifiedName startNodeId = new org.openprovenance.prov.vanilla.QualifiedName(BLANK_URI,
                 "StoredSampleCon_r1", "blank");
-        System.out.println(startNodeId);
         IQuery<?> query = new GetSubgraphs(new FittingLinearSubgraphs(
                 List.of(
                         new EdgeToNodeCondition(null,
