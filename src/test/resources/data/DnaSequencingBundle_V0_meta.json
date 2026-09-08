@@ -15,7 +15,7 @@
         "ORG4:DnaSequencingBundle_V0": {
           "prov:type": "prov:bundle",
           "pav:version": {
-            "$": 1,
+            "$": "1",
             "type": "xsd:int"
           }
         },
@@ -23,11 +23,11 @@
           "cpm:originatorId": "ORG4",
           "cpm:authorityId": "Trusted_Party",
           "cpm:tokenTimestamp": {
-            "$": 1765140254,
+            "$": "1765140254",
             "type": "xsd:int"
           },
           "cpm:documentCreationTimestamp": {
-            "$": 1765140247,
+            "$": "1765140247",
             "type": "xsd:int"
           },
           "cpm:documentDigest": "8ae4eaed2dcf4c3fd15a7f86961215268fd3b73537682b9fb89096973e57c199",
