@@ -1,12 +1,12 @@
 package cz.muni.xmichalk.storage;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import cz.muni.fi.cpm.model.CpmDocument;
 import cz.muni.fi.cpm.model.ICpmFactory;
 import cz.muni.fi.cpm.model.ICpmProvFactory;
 import cz.muni.xmichalk.storage.storageDTO.GetDocumentResponse;
 import cz.muni.xmichalk.storage.storageDTO.GetMetaResponse;
 import cz.muni.xmichalk.util.ProvDocumentUtils;
+import tools.jackson.databind.ObjectMapper;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;

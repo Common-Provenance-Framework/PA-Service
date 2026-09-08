@@ -1,20 +1,30 @@
 package cz.muni.xmichalk.util;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import cz.muni.fi.cpm.model.IEdge;
-import cz.muni.fi.cpm.model.INode;
-import org.openprovenance.prov.model.*;
-import org.openprovenance.prov.model.interop.Formats;
-import org.openprovenance.prov.vanilla.HasAttributes;
-import org.openprovenance.prov.vanilla.ProvFactory;
+import static cz.muni.xmichalk.util.NameSpaceConstants.BLANK_URI;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
 
-import static cz.muni.xmichalk.util.NameSpaceConstants.BLANK_URI;
+import org.openprovenance.prov.model.Attribute;
+import org.openprovenance.prov.model.Bundle;
+import org.openprovenance.prov.model.Document;
+import org.openprovenance.prov.model.Element;
+import org.openprovenance.prov.model.Identifiable;
+import org.openprovenance.prov.model.Namespace;
+import org.openprovenance.prov.model.QualifiedName;
+import org.openprovenance.prov.model.Relation;
+import org.openprovenance.prov.model.Statement;
+import org.openprovenance.prov.model.StatementOrBundle;
+import org.openprovenance.prov.model.interop.Formats;
+import org.openprovenance.prov.vanilla.HasAttributes;
+import org.openprovenance.prov.vanilla.ProvFactory;
+
+import cz.muni.fi.cpm.model.IEdge;
+import cz.muni.fi.cpm.model.INode;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
 
 public class ResultsTransformationUtils {
     public static JsonNode transformToJsonNode(Document document) {
@@ -23,7 +33,7 @@ public class ResultsTransformationUtils {
         String jsonString = ProvDocumentUtils.serialize(document, Formats.ProvFormat.JSON);
         try {
             return objectMapper.readTree(jsonString);
-        } catch (IOException e) {
+        } catch (JacksonException e) {
             throw new RuntimeException("Failed to convert document to JsonNode", e);
         }
     }
@@ -34,8 +44,9 @@ public class ResultsTransformationUtils {
 
         Namespace ns = pf.newNamespace();
 
-        Bundle bundle =
-                pf.newNamedBundle(pf.newQualifiedName(BLANK_URI, "anonymous_encapsulating_bundle", "blank"), null);
+        Bundle bundle = pf.newNamedBundle(
+                pf.newQualifiedName(BLANK_URI, "anonymous_encapsulating_bundle", "blank"),
+                null);
 
         if (nodes == null) {
             nodes = List.of();

@@ -263,7 +263,7 @@ public class BundleQueryController {
           connectorId,
           queryParams.querySpecification.getClass().getName());
 
-      QueryResult queryResult = bundleQueryService.evaluateBundleQuery(
+      QueryResult<?> queryResult = bundleQueryService.evaluateBundleQuery(
           bundleId,
           connectorId,
           queryParams.querySpecification,

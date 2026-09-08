@@ -1,12 +1,13 @@
 package cz.muni.xmichalk.util;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import cz.muni.fi.cpm.merged.CpmMergedFactory;
 import cz.muni.fi.cpm.model.CpmDocument;
 import cz.muni.fi.cpm.model.ICpmFactory;
 import cz.muni.fi.cpm.model.ICpmProvFactory;
 import cz.muni.fi.cpm.vanilla.CpmProvFactory;
 import cz.muni.xmichalk.TestDocumentProvider;
+import tools.jackson.databind.JsonNode;
+
 import org.junit.jupiter.params.ParameterizedTest;
 import org.openprovenance.prov.model.Document;
 import org.openprovenance.prov.model.interop.Formats;

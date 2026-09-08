@@ -22,10 +22,6 @@ import org.openprovenance.prov.model.StatementOrBundle;
 import org.openprovenance.prov.model.interop.Formats;
 import org.openprovenance.prov.vanilla.ProvFactory;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import cz.muni.fi.cpm.merged.CpmMergedFactory;
 import cz.muni.fi.cpm.model.CpmDocument;
 import cz.muni.fi.cpm.model.ICpmFactory;
@@ -65,6 +61,9 @@ import cz.muni.xmichalk.querySpecification.nodeConditions.HasId;
 import cz.muni.xmichalk.querySpecification.nodeConditions.IsKind;
 import cz.muni.xmichalk.querySpecification.subgraphConditions.EdgeToNodeCondition;
 import cz.muni.xmichalk.querySpecification.subgraphConditions.edgeConditions.IsRelation;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
 
 public class ExampleQueriesTest {
     ProvFactory pF = new ProvFactory();
