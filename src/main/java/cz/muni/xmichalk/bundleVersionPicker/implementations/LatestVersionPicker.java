@@ -61,12 +61,12 @@ public class LatestVersionPicker implements IVersionPicker {
         node,
         ATTR_PROV_TYPE,
         QualifiedName.class,
-        qn -> qn.getUri().equals(PROV_URI + "bundle"))
+        qn -> qn.getUri().equalsIgnoreCase(PROV_URI + "bundle"))
         || AttributeUtils.hasAttributeTargetValue(
             node,
             ATTR_PROV_TYPE,
             String.class,
-            type -> type.equals("prov:bundle"));
+            type -> type.equalsIgnoreCase("prov:bundle"));
   }
 
   private static boolean hasVersionAttribute(INode node) {
