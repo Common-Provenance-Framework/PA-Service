@@ -62,7 +62,7 @@ public class GetPreferredVersion implements IQuery<QualifiedNameData> {
         QualifiedName pickedVersion = versionPicker.apply(context.documentId, metaDocument);
 
         if (pickedVersion != null) {
-            return new QueryResult<>(new QualifiedNameData().from(pickedVersion), retrievedDocument.token);
+            return new QueryResult<>(new QualifiedNameData().from(pickedVersion), retrievedDocument.jwt);
         }
 
         return null;
