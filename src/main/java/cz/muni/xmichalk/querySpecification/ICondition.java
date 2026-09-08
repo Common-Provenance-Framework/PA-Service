@@ -17,6 +17,7 @@ import java.util.function.Predicate;
         {
                 @JsonSubTypes.Type(value = HasAttr.class, name = "HasAttr"),
                 @JsonSubTypes.Type(value = HasAttrLangStringValue.class, name = "HasAttrLangStringValue"),
+                @JsonSubTypes.Type(value = HasAttrStringValue.class, name = "HasAttrStringValue"),
                 @JsonSubTypes.Type(value = HasAttrQualifiedNameValue.class, name = "HasAttrQualifiedNameValue"),
                 @JsonSubTypes.Type(value = HasAttrTimestampValue.class, name = "HasAttrTimestampValue"),
                 @JsonSubTypes.Type(value = HasId.class, name = "HasId"),
