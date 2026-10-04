@@ -27,7 +27,7 @@ RUN ./mvnw -B org.apache.maven.plugins:maven-install-plugin:3.1.4:install-file \
     -DgeneratePom=true
 RUN ./mvnw -B package -DskipTests
 
-FROM eclipse-temurin:26-jre-alpine-3.23@sha256:c4a22bec4f4368636abb9b6fe2b2350fd7fae1ec0d3bf43fcaae1be720c3bbd1 AS runtime
+FROM eclipse-temurin:26-jre-alpine-3.24@sha256:9eedff2367194d11eddd6f14101b444945a708c986270cd5716b934596ba3a31 AS runtime
 
 WORKDIR /app
 
