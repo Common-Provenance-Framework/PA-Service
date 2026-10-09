@@ -18,8 +18,8 @@ import tools.jackson.databind.ObjectMapper;
 import org.openprovenance.prov.vanilla.ProvFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 
-import java.io.File;
 import java.io.IOException;
 
 @Configuration
@@ -54,7 +54,7 @@ public class Config {
 
         ObjectMapper mapper = new ObjectMapper();
         MockedAuthConfig config =
-                mapper.readValue(new File("src/main/resources/mockedAuthorizationConfig.json"), MockedAuthConfig.class);
+                mapper.readValue(new ClassPathResource("mockedAuthorizationConfig.json").getInputStream(), MockedAuthConfig.class);
 
         return new MockedAuthStorage(storage, config);
     }
