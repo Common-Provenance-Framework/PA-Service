@@ -13,8 +13,11 @@ docker build -t prov-access-service .
 Run the container:
 
 ```sh
-docker run -p 8082:8080 prov-access-service
+docker run -d --name pa --network cpf-net -p 8082:8080 prov-access-service
 ```
+
+- `--network cpf-net`: the store must be reachable from this container.
+- `--name pa` is the hostname PT uses to reach this service (`http://pa:8080/api/` in PT's `provServiceTable.json`).
 
 By default, the service listens on port `8080`. You can change it with the `PA_SERVICE_PORT` environment variable, e.g. `-e PA_SERVICE_PORT=9090 -p 8082:9090`.
 
