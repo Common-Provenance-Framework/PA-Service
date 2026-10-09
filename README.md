@@ -13,10 +13,13 @@ docker build -t prov-access-service .
 Run the container:
 
 ```sh
-docker run -p 8082:8080 --env-file .env prov-access-service
+docker run -d --name pa --network cpf-net -p 8082:8080 prov-access-service
 ```
 
-By default, the service listens on port `8080`. You can change the default port using the `PA_SERVICE_PORT` environment variable (see `.env`).
+- `--network cpf-net`: the store must be reachable from this container.
+- `--name pa` is the hostname PT uses to reach this service (`http://pa:8080/api/` in PT's `provServiceTable.json`).
+
+By default, the service listens on port `8080`. You can change it with the `PA_SERVICE_PORT` environment variable, e.g. `-e PA_SERVICE_PORT=9090 -p 8082:9090`.
 
 > Note: This service is normally deployed alongside a traversal service [**(PT-Service)**](https://github.com/Common-Provenance-Framework/PT-Service) and provenance storage [**(CPF-Storage)**](https://github.com/Common-Provenance-Framework/CPF-Storage) as part of the full demo setup described in the original project's README.
 

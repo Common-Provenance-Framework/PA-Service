@@ -70,6 +70,23 @@ public class AttributeUtilsTest {
   }
 
   @Test
+  public void testGetAttributeValue_provType_multiple() {
+    QualifiedName entityId = new org.openprovenance.prov.vanilla.QualifiedName(BLANK_URI, "entity1", "blank");
+    Entity entity = cPF.getProvFactory().newEntity(entityId);
+    QualifiedName qnTypeType = new org.openprovenance.prov.vanilla.QualifiedName(PROV_URI, "QUALIFIED_NAME", "prov");
+    QualifiedName first = pF.newQualifiedName(BLANK_URI, "data", "blank");
+    QualifiedName second = pF.newQualifiedName(NameSpaceConstants.CPM_URI, "backwardConnector", "cpm");
+    entity.getType().add(pF.newType(first, qnTypeType));
+    entity.getType().add(pF.newType(second, qnTypeType));
+
+    Object types = AttributeUtils.getAttributeValue(entity, AttributeNames.ATTR_PROV_TYPE);
+
+    assert types instanceof List;
+    assert ((List<?>) types).size() == 2;
+    assert AttributeUtils.isTargetValue(types, QualifiedName.class, qn -> qn.getUri().equals(second.getUri()));
+  }
+
+  @Test
   public void testGetAttributeValue_startTime() {
     QualifiedName activityId = new org.openprovenance.prov.vanilla.QualifiedName(BLANK_URI, "activity1", "blank");
     Activity activity = cPF.getProvFactory().newActivity(activityId);
