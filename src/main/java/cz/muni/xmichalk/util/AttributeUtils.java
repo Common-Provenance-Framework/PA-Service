@@ -58,11 +58,14 @@ public class AttributeUtils {
             return element.getLocation();
         }
         if (attributeNameUri.equals(ATTR_PROV_TYPE.getUri())) {
+            List<Object> types = new ArrayList<>();
             for (Type type : element.getType()) {
                 if (type.getElementName().getUri().equals(attributeNameUri)) {
-                    return type.getValue();
+                    types.add(type.getValue());
                 }
             }
+            if (types.size() == 1) return types.getFirst();
+            if (!types.isEmpty()) return types;
         }
         if (attributeNameUri.equals(ATTR_LABEL.getUri())) {
             if (element.getLabel() != null) {
