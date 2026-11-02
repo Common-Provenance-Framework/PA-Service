@@ -30,6 +30,8 @@ import cz.muni.xmichalk.util.CpmUtils;
 
 public class GetConnectors extends FindSubgraphsQuery<List<ConnectorData>> {
   public Boolean backward = null;
+  // set by the traverser when the start node was reached via a connector of a neighbouring bundle
+  public boolean enteredViaConnector = false;
 
   public GetConnectors() {
   }
@@ -48,10 +50,35 @@ public class GetConnectors extends FindSubgraphsQuery<List<ConnectorData>> {
     String typeValueRegex = backward == null ? CPM_URI + "(backward|forward)Connector"
         : CPM_URI + (backward ? "backwardConnector" : "forwardConnector");
 
+    IFindableSubgraph startsIn = enteredViaConnector && Boolean.TRUE.equals(backward)
+        ? requireForwardConnector(context)
+        : fromSubgraphs;
     IFindableSubgraph finder = new FittingNodes(new HasAttrQualifiedNameValue(ATTR_PROV_TYPE.getUri(), typeValueRegex),
-        fromSubgraphs);
+        startsIn);
 
     return super.evaluate(context, finder);
+  }
+
+  // a bundle entered while traversing backward must be entered at its forward connector; any other start node
+  // means the connector referencing it has a wrong id and part of this bundle would be silently skipped
+  private IFindableSubgraph requireForwardConnector(QueryContext context) {
+    HasAttrQualifiedNameValue isForwardConnector = new HasAttrQualifiedNameValue(ATTR_PROV_TYPE.getUri(),
+        CPM_URI + "forwardConnector");
+
+    return (graph, startNode) -> {
+      if (startNode == null) {
+        throw invalidEntryConnector(context, "does not exist");
+      }
+      if (!isForwardConnector.test(startNode)) {
+        throw invalidEntryConnector(context, "is not a forwardConnector");
+      }
+      return fromSubgraphs.find(graph, startNode);
+    };
+  }
+
+  private static IllegalArgumentException invalidEntryConnector(QueryContext context, String problem) {
+    return new IllegalArgumentException("Invalid entry connector: " + context.startNodeId.getUri() + " in bundle "
+        + context.documentId.getUri() + " " + problem + ". The backward connector referencing it likely uses a wrong id.");
   }
 
   @Override
