@@ -6,11 +6,16 @@ import cz.muni.xmichalk.MockedStorage;
 import cz.muni.xmichalk.TestDocumentProvider;
 import cz.muni.xmichalk.models.ConnectorData;
 import cz.muni.xmichalk.models.QueryContext;
+import cz.muni.xmichalk.querySpecification.findable.DerivationPathFromStartNode;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.openprovenance.prov.model.QualifiedName;
 
 import java.nio.file.AccessDeniedException;
 import java.util.List;
 import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class GetConnectorsTest {
 
@@ -106,5 +111,82 @@ public class GetConnectorsTest {
         List<ConnectorData> result = getAllConnectorsQuery.evaluate(context).result;
 
         assert result.isEmpty();
+    }
+
+    private static final CpmDocument processingBundle = TestDocumentProvider.processingBundle_V0;
+
+    @Test
+    public void testGetConnectors_backwardHopEnteringAtBackwardConnector_fails() {
+        GetConnectors query = hopQuery(true);
+        QueryContext context = contextAt(processingBundle.getBackwardConnectors().getFirst().getId());
+
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> query.evaluate(context));
+
+        assert e.getMessage().contains("is not a forwardConnector");
+    }
+
+    @Test
+    public void testGetConnectors_backwardHopEnteringAtForwardConnector_findsBackwardConnectors()
+            throws AccessDeniedException {
+        GetConnectors query = hopQuery(true);
+        QueryContext context = contextAt(processingBundle.getForwardConnectors().getFirst().getId());
+
+        List<ConnectorData> result = query.evaluate(context).result;
+
+        assert result.size() == 1;
+        assert result.getFirst().id.toQN().equals(processingBundle.getBackwardConnectors().getFirst().getId());
+    }
+
+    @Test
+    public void testGetConnectors_backwardHopEnteringAtNonConnector_fails() {
+        GetConnectors query = hopQuery(true);
+        QueryContext context = contextAt(processingBundle.getMainActivity().getId());
+
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> query.evaluate(context));
+
+        assert e.getMessage().contains("is not a forwardConnector");
+    }
+
+    @Test
+    public void testGetConnectors_traversalStartAtBackwardConnector_notChecked() throws AccessDeniedException {
+        GetConnectors query = new GetConnectors(true, new DerivationPathFromStartNode(true));
+        QueryContext context = contextAt(processingBundle.getBackwardConnectors().getFirst().getId());
+
+        List<ConnectorData> result = query.evaluate(context).result;
+
+        assert result.size() == 1;
+        assert result.getFirst().id.toQN().equals(processingBundle.getBackwardConnectors().getFirst().getId());
+    }
+
+    @Test
+    public void testGetConnectors_backwardHopEnteringAtMissingNode_fails() {
+        GetConnectors query = hopQuery(true);
+        QueryContext context = contextAt(new org.openprovenance.prov.vanilla.QualifiedName(
+                "https://openprovenance.org/blank/", "NoSuchCon", "blank"));
+
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> query.evaluate(context));
+
+        assert e.getMessage().contains("does not exist");
+    }
+
+    @Test
+    public void testGetConnectors_forwardHop_notChecked() throws AccessDeniedException {
+        GetConnectors query = hopQuery(false);
+        QueryContext context = contextAt(processingBundle.getBackwardConnectors().getFirst().getId());
+
+        List<ConnectorData> result = query.evaluate(context).result;
+
+        assert result.size() == 1;
+        assert result.getFirst().id.toQN().equals(processingBundle.getForwardConnectors().getFirst().getId());
+    }
+
+    private static GetConnectors hopQuery(boolean backward) {
+        GetConnectors query = new GetConnectors(backward, new DerivationPathFromStartNode(backward));
+        query.enteredViaConnector = true;
+        return query;
+    }
+
+    private static QueryContext contextAt(QualifiedName startNodeId) {
+        return new QueryContext(processingBundle.getBundleId(), startNodeId, null, new MockedStorage());
     }
 }
